@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Berry Hub Key</title>
+</head>
+<body style="background:black; color:pink; text-align:center; font-family:sans-serif;">
+
+    <h1>🍓 BERRY HUB</h1>
+    <h2>KEY ATUAL:</h2>
+
+    <div id="key" style="font-size:30px; font-weight:bold;"></div>
+
+    <script>
+    async function getKey() {
+        const res = await fetch("SEU_LINK_RAW_AQUI");
+        const secret = await res.text();
+
+        const time = Math.floor(Date.now() / 1000);
+        const period = Math.floor(time / (60 * 60 * 24 * 5));
+
+        let seed = 0;
+        for (let i = 0; i < secret.length; i++) {
+            seed += secret.charCodeAt(i);
+        }
+
+        function random(seed) {
+            let x = Math.sin(seed) * 10000;
+            return x - Math.floor(x);
+        }
+
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let key = "";
+
+        for (let i = 0; i < 7; i++) {
+            let r = Math.floor(random(period + seed + i) * chars.length);
+            key += chars[r];
+        }
+
+        document.getElementById("key").innerText = key;
+    }
+
+    getKey();
+    </script>
+
+</body>
+</html>
